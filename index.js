@@ -23,4 +23,5 @@ scanner.on("data", function(data) {
 		console.log(buffer);
 		buffer = '';
 		break;
+	}
 });
