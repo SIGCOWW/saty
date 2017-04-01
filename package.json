@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/SIGCOWW/saty#readme",
   "dependencies": {
-    "node-hid": "^0.5.4"
+    "escpos": "^2.4.0",
+    "node-hid": "^0.5.4",
+    "serialport": "^4.0.7"
   }
 }
