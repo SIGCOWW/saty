@@ -1,0 +1,35 @@
+{
+	"4910037690579": {
+		"title": "Sample Vol.2",
+		"short": "sample-02",
+		"price": 256,
+		"isnew": true,
+		"event": "技術書典2",
+		"key": "testkey",
+		"description": [{
+			"title": "一つ目記事",
+			"author": "テスト太郎",
+			"text": "説明説明説明"
+		}, {
+			"title": "ツー記事",
+			"author": "三歩流次郎",
+			"text": "せつめー"
+		}]
+	}, "4910037690371": {
+		"title": "★謹呈★Sample Vol.2",
+		"short": "sample-02",
+		"price": 0,
+		"key": "testkey2"
+	}, "4910037690470": {
+		"title": "Sample Vol.1",
+		"short": "sample-01",
+		"price": 512,
+		"isnew": false,
+		"event": "C91",
+		"key": "testkey2",
+		"shortdescription": [
+			"一つ目記事", 
+			"ふたつめきじー"
+		]
+	}
+}
