@@ -12,7 +12,7 @@ var Display = require('./lib/display');
 
 // Initialize
 PRINTER_IPADDR = null;
-DISPLAY_PORT = '/tmp/ttyVR0';
+DISPLAY_PORT = '/tmp/ttyS0';
 var DUMP_CODE = '2222222222222';
 var printer = new Printer(DUMP_CODE, PRINTER_IPADDR);
 var display = new Display(DISPLAY_PORT);
