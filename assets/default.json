@@ -1,10 +1,11 @@
 {
+	"header": "技術マーケット典2 あ-123",
 	"4910037690579": {
 		"title": "Sample Vol.2",
 		"short": "sample-02",
 		"price": 256,
 		"isnew": true,
-		"event": "技術書典2",
+		"event": "techbookfest 2",
 		"key": "testkey",
 		"description": [{
 			"title": "一つ目記事",
@@ -28,7 +29,7 @@
 		"event": "C91",
 		"key": "testkey2",
 		"shortdescription": [
-			"一つ目記事", 
+			"一つ目記事",
 			"ふたつめきじー"
 		]
 	}
