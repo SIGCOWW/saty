@@ -20,7 +20,8 @@
 		"title": "★謹呈★Sample Vol.2",
 		"short": "sample-02",
 		"price": 0,
-		"key": "testkey2"
+		"key": "testkey2",
+		"message": "本書はうんたらかんたら"
 	}, "4910037690470": {
 		"title": "Sample Vol.1",
 		"short": "sample-01",

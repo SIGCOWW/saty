@@ -13,19 +13,13 @@ var Display = require('./lib/display');
 // Initialize
 PRINTER_IPADDR = null;
 DISPLAY_PORT = '/tmp/ttyS0';
-var DUMP_CODE = '2222222222222';
-var printer = new Printer(DUMP_CODE, PRINTER_IPADDR);
+var printer = new Printer(PRINTER_IPADDR);
 var display = new Display(DISPLAY_PORT);
-
-var message = {};
-var keys = db.getBookList();
-for (var i=0; i<keys.length; i++) message[keys[i]] = db.getDisplayData(keys[i]);
-
 
 // Scan
 scanner.scan(SCANNER_VID, SCANNER_PID, function(isdn) {
-	if (isdn === DUMP_CODE) {
-		printer.dump(db.getReceiptLog(new Date()));
+	if (isdn === printer.DUMP_CODE) {
+		printer.dump();
 		return;
 	}
 
