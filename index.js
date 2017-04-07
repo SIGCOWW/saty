@@ -12,15 +12,16 @@ var Display = require('./lib/display');
 
 // Initialize
 PRINTER_IPADDR = null;
-DISPLAY_PORT = '/tmp/ttyS0';
+//DISPLAY_PORT = '/tmp/ttyS0';
 var printer = new Printer(PRINTER_IPADDR);
 var display = new Display(DISPLAY_PORT);
 
 // Scan
 scanner.scan(SCANNER_VID, SCANNER_PID, function(isdn) {
 	if (isdn === printer.DUMP_CODE) {
+		console.log("DUMP!");
 		printer.dump();
-		return;
+		return
 	}
 
 	var receipt = db.getReceiptData(isdn);
