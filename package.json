@@ -18,8 +18,11 @@
   "homepage": "https://github.com/SIGCOWW/saty#readme",
   "dependencies": {
     "escpos": "^2.4.0",
-    "iconv-lite": "^0.4.15",
+    "get-pixels": "^3.3.0",
+    "iconv": "^2.3.0",
+    "iconv-lite": "^0.4.19",
     "node-hid": "^0.5.4",
+    "qr-image": "^3.2.0",
     "serialport": "^4.0.7"
   }
 }

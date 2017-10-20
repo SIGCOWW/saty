@@ -1,42 +1,39 @@
 'use strict';
-var SCANNER_VID = 1204;
-var SCANNER_PID = 56929;
-var TEC_VID = 1204;
-var TEC_PID = 56929;
-var PRINTER_IPADDR = '192.168.192.168';
-var DISPLAY_PORT = '/dev/serial0';
-
-var scanner = require('./lib/scanner');
-var db = require('./lib/db');
-var Printer = require('./lib/printer');
-var TecPrinter = require('./lib/tecprinter');
-var Display = require('./lib/display');
+const scanner = require('./lib/scanner');
+const db = require('./lib/db');
+const Printer = require('./lib/printer');
+const TecPrinter = require('./lib/tecprinter');
+const Display = require('./lib/display');
 var exec = require('child_process').exec;
 
+var OPTICON = [ 0x065a, 0x0001 ];
+var TECSCAN = [ 0x08a6, 0x0044 ];
+var EPSON_IPADDR = '192.168.192.168'; EPSON_IPADDR = null;
+var TEC_USBID = [ 0x08a6, 0x0041 ];
+var DISPLAY_PORT = '/dev/serial0'; DISPLAY_PORT = '/tmp/ttyS0';
+
+
 // Initialize
-//PRINTER_IPADDR = null;
-//DISPLAY_PORT = '/tmp/ttyS0';
-var printer = new Printer(PRINTER_IPADDR);
-var tecprinter = new TecPrinter(0x08a6, 0x0041);
+var epson = new Printer(EPSON_IPADDR);
+var tec = new TecPrinter(TEC_USBID[0], TEC_USBID[1]);
 var display = new Display(DISPLAY_PORT);
 
 // Scan
-scanner.scan(SCANNER_VID, SCANNER_PID, function(isdn) {
-	if (isdn === printer.DUMP_CODE) { printer.dump(); return; }
+scanner.scan(OPTICON[0], OPTICON[1], function(isdn) {
+	if (isdn === epson.DUMP_CODE) { epson.dump(); return; }
 
 	var receipt = db.getReceiptData(isdn);
 	if (receipt === null) { return; }
 
-	printer.printReceipt(receipt);
+	epson.printReceipt(receipt);
 	display.printReceipt(receipt);
 	db.writeReceiptLog(receipt, 'epson');
 });
 
-scanner.scan(TEC_VID, TEC_PID, function(isdn) {
+scanner.scan(TECSCAN[0], TECSCAN[1], function(isdn) {
+	isdn = isdn.substr(0, 13)
 	var receipt = db.getReceiptData(isdn);
-	if (receipt === null) { return; }
 
-	printer.printReceipt(receipt);
-	//display.printReceipt(receipt);
+	tec.printReceipt(receipt);
 	db.writeReceiptLog(receipt, 'tec');
 });
