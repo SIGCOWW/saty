@@ -8,9 +8,9 @@ var exec = require('child_process').exec;
 
 var OPTICON = [ 0x065a, 0x0001 ];
 var TECSCAN = [ 0x08a6, 0x0044 ];
-var EPSON_IPADDR = '192.168.192.168'; EPSON_IPADDR = null;
+var EPSON_IPADDR = '192.168.192.168'; //EPSON_IPADDR = null;
 var TEC_USBID = [ 0x08a6, 0x0041 ];
-var DISPLAY_PORT = '/dev/serial0'; DISPLAY_PORT = '/tmp/ttyS0';
+var DISPLAY_PORT = '/dev/serial0'; //DISPLAY_PORT = '/tmp/ttyS0';
 
 
 // Initialize
@@ -21,6 +21,7 @@ var display = new Display(DISPLAY_PORT);
 // Scan
 scanner.scan(OPTICON[0], OPTICON[1], function(isdn) {
 	if (isdn === epson.DUMP_CODE) { epson.dump(); return; }
+	if (isdn === epson.DEBUG_CODE) { exec('sudo date -s "2017/10/22 09:55:00"'); return ;}
 
 	var receipt = db.getReceiptData(isdn);
 	if (receipt === null) { return; }
