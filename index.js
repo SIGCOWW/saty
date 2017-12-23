@@ -4,13 +4,13 @@ const db = require('./lib/db');
 const Printer = require('./lib/printer');
 const TecPrinter = require('./lib/tecprinter');
 const Display = require('./lib/display');
-var exec = require('child_process').exec;
+const WEB_PORT = 3000;
 
 var OPTICON = [ 0x065a, 0x0001 ];
 var TECSCAN = [ 0x08a6, 0x0044 ];
 /*var EPSON_IPADDR = '192.168.192.168';*/ var EPSON_IPADDR = null;
 var TEC_USBID = [ 0x08a6, 0x0041 ];
-var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
+/*var DISPLAY_PORT = '/dev/serial0';*/var DISPLAY_PORT = '/tmp/ttyS0';
 
 
 // Initialize
@@ -37,3 +37,45 @@ scanner.scan(TECSCAN[0], TECSCAN[1], function(isdn) {
 	tec.printReceipt(receipt);
 	db.writeReceiptLog(receipt, 'tec');
 });
+
+
+var http = require('http');
+var url = require('url');
+var server = http.createServer(function(req, res) {
+	var parse = url.parse(req.url, true);
+	if (parse.query.method && parse.query.amount) {
+		var obj = {};
+		obj['price'] = parse.query.amount;
+		obj['isdn'] = '';
+		obj['title'] = '';
+		switch (parse.query.method) {
+		case 'square':
+			obj['title'] = 'クレジットカード決済 (Square)';
+			break;
+		case 'pxvpay':
+			obj['title'] = 'pixiv PAY';
+			break;
+		case 'wechat':
+			obj['title'] = 'WeChat Pay';
+			break;
+		}
+		display.printReceipt(obj);
+	}
+
+	if (parse.query['keys[]']) {
+		var sleep = 0;
+		parse.query['keys[]'].forEach(function(cmd) {
+			if (isFinite(cmd)) {
+				sleep += parseInt(cmd);
+			} else {
+				setTimeout(function() {
+					console.log('PRESS', cmd);
+				}, sleep);
+			}
+		});
+	}
+
+	res.writeHead(200);
+	res.end('OK');
+});
+server.listen(WEB_PORT);
