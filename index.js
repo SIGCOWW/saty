@@ -4,19 +4,22 @@ const db = require('./lib/db');
 const Printer = require('./lib/printer');
 const TecPrinter = require('./lib/tecprinter');
 const Display = require('./lib/display');
+const Friend = require('./lib/friend');
 const WEB_PORT = 3000;
 
 var OPTICON = [ 0x065a, 0x0001 ];
 var TECSCAN = [ 0x08a6, 0x0044 ];
 /*var EPSON_IPADDR = '192.168.192.168';*/ var EPSON_IPADDR = null;
 var TEC_USBID = [ 0x08a6, 0x0041 ];
-/*var DISPLAY_PORT = '/dev/serial0';*/var DISPLAY_PORT = '/tmp/ttyS0';
-
+var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
+var FRIEND_PORT = '/dev/spidev0.0';
 
 // Initialize
 var epson = new Printer(EPSON_IPADDR);
 var tec = new TecPrinter(TEC_USBID[0], TEC_USBID[1]);
 var display = new Display(DISPLAY_PORT);
+var friend = new Friend(FRIEND_PORT);
+
 
 // Scan
 scanner.scan(OPTICON[0], OPTICON[1], function(isdn) {
@@ -39,6 +42,7 @@ scanner.scan(TECSCAN[0], TECSCAN[1], function(isdn) {
 });
 
 
+// 何か
 var http = require('http');
 var url = require('url');
 var server = http.createServer(function(req, res) {
@@ -64,12 +68,13 @@ var server = http.createServer(function(req, res) {
 
 	if (parse.query['keys[]']) {
 		var sleep = 0;
+		if (!Array.isArray(parse.query['keys[]'])) parse.query['keys[]'] = [ parse.query['keys[]'] ];
 		parse.query['keys[]'].forEach(function(cmd) {
 			if (isFinite(cmd)) {
 				sleep += parseInt(cmd);
 			} else {
 				setTimeout(function() {
-					console.log('PRESS', cmd);
+					friend.key(cmd);
 				}, sleep);
 			}
 		});
