@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SATY出張版</title>
+</head>
+<body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+var result = confirm('clearする');
+if (result) window.localStorage.clear();
+
+result = prompt('Square API キー');
+if (result) window.localStorage.setItem('square', result);
+
+result = prompt('見本用画像URL')
+if (result) window.localStorage.setItem('sample', result);
+
+result = prompt('SATY本体 HOST:PORT')
+if (result) window.localStorage.setItem('saty', result);
+
+$('body').append('<p>Square: ' + window.localStorage.getItem('square')  + '</p>');
+$('body').append('<p>Sample: <img src="' + window.localStorage.getItem('sample')  + '"></p>');
+$('body').append('<p>Saty: ' + window.localStorage.getItem('saty')  + '</p>');
+</script>
+</body>
+</html>
