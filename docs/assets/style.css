@@ -96,7 +96,7 @@ article.active {
 }
 
 #qrcode img {
-	margin-top: 4vh;
+	margin-top: 2vh;
 	height: 80vh;
 	background: #FFF;
 	padding: 1vh;
@@ -105,7 +105,7 @@ article.active {
 
 #qrcode p {
 	margin-top: 2vh;
-	font-size: 10vh;
-	line-height: 10vh;
+	font-size: 8vh;
+	line-height: 8vh;
 	color: #FFF;
 }

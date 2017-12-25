@@ -1,5 +1,5 @@
 $(function(){
-	var TEST_MODE = (location.hash == 'test');
+	var TEST_MODE = (location.hash == '#test');
 	if (TEST_MODE) alert('TEST_MODE');
 
 	var param = null;
@@ -115,7 +115,7 @@ $(function(){
 		if (method == 'wechat') {
 			var cny = (sum / 500) * 25;
 			$("#qrcode img").attr('src', './assets/qrcode.jpg');
-			$("#qrcode p").html(cny + 'CNY (&yen; ' + cny + ') 送金してください');
+			$("#qrcode p").html(cny + ' CNY (&yen;' + cny + ') 送金してください');
 			$("#qrcode").show();
 			clearTimeout(TIMEOUT);
 			TIMEOUT = null;
@@ -160,10 +160,10 @@ $(function(){
 		}
 
 		saty({'keys[]': keys});
-		var href = window.location;
-		window.location = uri;
 		setTimeout(function() {
-			window.location = href;
+			window.location = window.location;
+			alert('おかえり処理 || キャンセル処理用');
 		}, 100);
+		window.location = uri;
 	}
 });
