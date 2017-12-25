@@ -1,67 +1,7 @@
-function payment(items, method) {
-	function saty(param) {
-		var host = window.localStorage.getItem('saty');
-		if (host) $.get('http://' + host + '/', param);
-	}
-
-	var sum = 0;
-	$.each(items, function(i, arr) {
-		sum += arr['price'] * arr['amount'];
-	});
-
-	saty({'method':method, 'amount':sum});
-	if (method == 'wechat') {
-		alert('売り子へ: 例の画像を見せてください。');
-		return;
-	}
-
-	var uri;
-	var keys = [ 100, 'q', 1500 ];
-	if (method == 'square') {
-		var appid = window.localStorage.getItem('square');
-		if (!appid) {
-			alert('Squareの設定がない');
-			return;
-		}
-
-		var param = {
-			'amount_money': {
-    			'amount': sum,
-				'currency_code': 'JPY'
-			},
-			'callback_url': 'https://sigcoww.github.io/saty/',
-			'client_id': appid,
-			'version': '1.3',
-			'options' : {
-				'supported_tender_types': ['CREDIT_CARD', 'CASH', 'OTHER', 'SQUARE_GIFT_CARD', 'CARD_ON_FILE']
-			}
-		};
-
-		uri = 'square-commerce-v1://payment/create?data=' + encodeURIComponent(JSON.stringify(param));
-	} else if (method == 'pxvpay') {
-		//keys.push('w');
-		//keys.push(1000);
-		$.each(items, function(i, arr) {
-			var key = 'asdfghjkl'[arr['index']];
-			for (var i=0; i<arr['amount']; i++) {
-				keys.push(key);
-				keys.push(50);
-			}
-		});
-		keys.push('e');
-		uri = 'serval://';
-	}
-
-	saty({'keys[]': keys});
-	setTimeout(function() {
-		window.location = window.location;
-		alert("キャンセル処理を収めた");
-	}, 100);
-	window.location = uri;
-}
-
-
 $(function(){
+	var TEST_MODE = (location.hash == 'test');
+	if (TEST_MODE) alert('TEST_MODE');
+
 	var param = null;
 	try {
 		param = JSON.parse(decodeURIComponent(location.search.replace('?data=', '')));
@@ -79,9 +19,7 @@ $(function(){
 		function kick() {
 			if (TIMEOUT) {
 				clearTimeout(TIMEOUT);
-				INTERVAL = null;
 				TIMEOUT = null;
-				$("#sample").hide();
 			}
 
 			TIMEOUT = setTimeout(function() {
@@ -96,7 +34,10 @@ $(function(){
 		}
 
 		$('#sample').css('background-image', 'url('+SAMPLE_IMG+')');
-		$('#sample').hammer().on('tap', function() { kick(); });
+		$('#sample').hammer().on('tap', function() {
+			kick();
+			$(this).hide();
+		});
 		kick();
 	}
 
@@ -126,6 +67,7 @@ $(function(){
 	$("html").hammer().data('hammer').get('swipe').set({direction: Hammer.DIRECTION_ALL});
 	$("html").hammer().on('swipe', function(ev) {
 		if (!$(this).is(ev.target)) return true;
+		if ($('#sample').is(':visible') || $('#qrcode').is(':visible')) return true;
 		kick();
 
 		var items = [];
@@ -151,4 +93,77 @@ $(function(){
 		$("article").removeClass('active');
 		payment(items, method);
 	});
+
+	$("#qrcode").hammer().on('tap', function() {
+		kick();
+		$(this).hide();
+	});
+
+
+	function payment(items, method) {
+		function saty(param) {
+			var host = window.localStorage.getItem('saty');
+			if (host) $.get('http://' + host + '/', param);
+		}
+
+		var sum = 0;
+		$.each(items, function(i, arr) {
+			sum += arr['price'] * arr['amount'];
+		});
+
+		saty({'method':method, 'amount':sum});
+		if (method == 'wechat') {
+			var cny = (sum / 500) * 25;
+			$("#qrcode img").attr('src', './assets/qrcode.jpg');
+			$("#qrcode p").html(cny + 'CNY (&yen; ' + cny + ') 送金してください');
+			$("#qrcode").show();
+			clearTimeout(TIMEOUT);
+			TIMEOUT = null;
+			return;
+		}
+
+		var uri;
+		var keys = [ 100, 'q', 1500 ];
+		if (method == 'square') {
+			var appid = window.localStorage.getItem('square');
+			if (!appid) {
+				alert('Squareの設定がない');
+				return;
+			}
+
+			var param = {
+				'amount_money': {
+					'amount': TEST_MODE ? 100 : sum,
+					'currency_code': 'JPY'
+				},
+				'callback_url': 'https://sigcoww.github.io/saty/',
+				'client_id': appid,
+				'version': '1.3',
+				'options' : {
+					'supported_tender_types': ['CREDIT_CARD', 'CASH', 'OTHER', 'SQUARE_GIFT_CARD', 'CARD_ON_FILE']
+				}
+			};
+
+			uri = 'square-commerce-v1://payment/create?data=' + encodeURIComponent(JSON.stringify(param));
+		} else if (method == 'pxvpay') {
+			//keys.push('w');
+			//keys.push(1000);
+			$.each(items, function(i, arr) {
+				var key = 'asdfghjkl'[arr['index']];
+				for (var i=0; i<arr['amount']; i++) {
+					keys.push(key);
+					keys.push(50);
+				}
+			});
+			keys.push('e');
+			uri = 'serval://';
+		}
+
+		saty({'keys[]': keys});
+		var href = window.location;
+		window.location = uri;
+		setTimeout(function() {
+			window.location = href;
+		}, 100);
+	}
 });

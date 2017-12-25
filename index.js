@@ -80,6 +80,14 @@ var server = http.createServer(function(req, res) {
 		});
 	}
 
+	if (parse.query.power) {
+		var level = 0;
+		if (parse.query.power == 'high') level = 4;
+		if (parse.query.power == 'middle') level = 0;
+		if (parse.query.power == 'low') level = -12;
+		friend.raw('AT+BLEPOWERLEVEL=' + level);
+	}
+
 	res.writeHead(200);
 	res.end('OK');
 });

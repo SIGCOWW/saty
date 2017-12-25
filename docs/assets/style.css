@@ -86,3 +86,26 @@ article.active {
 		transform: translate3d(calc(-100% + 100vw), 0, 0);
     }
 }
+
+#qrcode {
+	text-align: center;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.75);
+	display: none;
+}
+
+#qrcode img {
+	margin-top: 4vh;
+	height: 80vh;
+	background: #FFF;
+	padding: 1vh;
+	border: 1vh solid #000;
+}
+
+#qrcode p {
+	margin-top: 2vh;
+	font-size: 10vh;
+	line-height: 10vh;
+	color: #FFF;
+}
