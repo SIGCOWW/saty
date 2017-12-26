@@ -103,7 +103,7 @@ $(function(){
 	function payment(items, method) {
 		function saty(param) {
 			var host = window.localStorage.getItem('saty');
-			if (host) $.get('http://' + host + '/', param);
+			if (host) $.get('https://' + host + '/', param);
 		}
 
 		var sum = 0;

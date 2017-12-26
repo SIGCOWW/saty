@@ -19,6 +19,7 @@
   "dependencies": {
     "escpos": "^2.4.0",
     "get-pixels": "^3.3.0",
+    "http-proxy": "^1.16.2",
     "iconv": "^2.3.0",
     "iconv-lite": "^0.4.19",
     "node-hid": "^0.5.4",

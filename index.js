@@ -15,13 +15,14 @@ var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
 var FRIEND_PORT = '/dev/spidev0.0';
 
 // Initialize
-var epson = new Printer(EPSON_IPADDR);
-var tec = new TecPrinter(TEC_USBID[0], TEC_USBID[1]);
+//var epson = new Printer(EPSON_IPADDR);
+//var tec = new TecPrinter(TEC_USBID[0], TEC_USBID[1]);
 var display = new Display(DISPLAY_PORT);
 var friend = new Friend(FRIEND_PORT);
 
 
 // Scan
+/*
 scanner.scan(OPTICON[0], OPTICON[1], function(isdn) {
 	if (isdn === epson.DUMP_CODE) { epson.dump(); return; }
 
@@ -40,6 +41,7 @@ scanner.scan(TECSCAN[0], TECSCAN[1], function(isdn) {
 	tec.printReceipt(receipt);
 	db.writeReceiptLog(receipt, 'tec');
 });
+*/
 
 
 // 何か
@@ -92,3 +94,16 @@ var server = http.createServer(function(req, res) {
 	res.end('OK');
 });
 server.listen(WEB_PORT);
+
+
+var httpProxy = require('http-proxy');
+var fs = require('fs');
+httpProxy.createServer({
+	ssl: {
+		key: fs.readFileSync('/home/pi/keys/server.key', 'utf8'),
+		cert: fs.readFileSync('/home/pi/keys/server.crt', 'utf8')
+	}, target: {
+		host: '127.0.0.1',
+		port: WEB_PORT
+  }
+}).listen(3443);
