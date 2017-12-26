@@ -146,8 +146,6 @@ $(function(){
 
 			uri = 'square-commerce-v1://payment/create?data=' + encodeURIComponent(JSON.stringify(param));
 		} else if (method == 'pxvpay') {
-			//keys.push('w');
-			//keys.push(1000);
 			$.each(items, function(i, arr) {
 				var key = 'asdfghjkl'[arr['index']];
 				for (var i=0; i<arr['amount']; i++) {
@@ -160,10 +158,6 @@ $(function(){
 		}
 
 		saty({'keys[]': keys});
-		setTimeout(function() {
-			window.location = window.location;
-			alert('おかえり処理 || キャンセル処理用');
-		}, 100);
 		window.location = uri;
 	}
 });
