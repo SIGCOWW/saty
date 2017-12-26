@@ -25,7 +25,7 @@ $(function(){
 			TIMEOUT = setTimeout(function() {
 				var img = new Image();
 				img.onload = function() {
-					$('#sample').width(img.width * (window.innerHeight / img.height) + window.innerWidth);
+					$('#sample').width(Math.floor(img.width * (window.innerHeight / img.height) + window.innerWidth));
 					$('#sample').height(window.innerHeight);
 					$("#sample").show();
 				}
@@ -97,6 +97,7 @@ $(function(){
 	$("#qrcode").hammer().on('tap', function() {
 		kick();
 		$(this).hide();
+		location.reload(); // スライドショーがおかしくなるのを防ぐ苦肉の策
 	});
 
 

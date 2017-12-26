@@ -23,7 +23,7 @@ if (result) window.localStorage.setItem('saty', result);
 
 $('body').append('<p>Square: ' + window.localStorage.getItem('square')  + '</p>');
 $('body').append('<p>Sample: <img src="' + window.localStorage.getItem('sample')  + '"></p>');
-$('body').append('<p>Saty: ' + window.localStorage.getItem('saty')  + '</p>');
+$('body').append('<p>Saty: <a href="https://' + window.localStorage.getItem('saty')  + '/">' + window.localStorage.getItem('saty') + '</a></p>');
 </script>
 </body>
 </html>
