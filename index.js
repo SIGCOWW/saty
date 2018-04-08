@@ -15,10 +15,25 @@ var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
 var FRIEND_PORT = '/dev/spidev0.0';
 
 // Initialize
-//var epson = new Printer(EPSON_IPADDR);
+var epson = new Printer(EPSON_IPADDR);
 //var tec = new TecPrinter(TEC_USBID[0], TEC_USBID[1]);
-var display = new Display(DISPLAY_PORT);
-var friend = new Friend(FRIEND_PORT);
+//var display = new Display(DISPLAY_PORT);
+//var friend = new Friend(FRIEND_PORT);
+
+
+// 何か2
+function demo(count) {
+	var isdn = '2784403994040';
+	var receipt = db.getReceiptData(isdn);
+	//epson.printLabel(receipt);
+	console.log('CALL');
+
+	if (count <= 0) return;
+	setInterval(function() {
+		demo(count - 1);
+	}, 1000);
+}
+demo(5);
 
 
 // Scan
@@ -43,7 +58,7 @@ scanner.scan(TECSCAN[0], TECSCAN[1], function(isdn) {
 });
 */
 
-
+/*
 // 何か
 var http = require('http');
 var url = require('url');
@@ -107,3 +122,4 @@ httpProxy.createServer({
 		port: WEB_PORT
   }
 }).listen(3443);
+*/
