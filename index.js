@@ -1,18 +1,18 @@
 'use strict';
-const scanner = require('./lib/scanner');
+//const scanner = require('./lib/scanner');
 const db = require('./lib/db');
 const Printer = require('./lib/printer');
-const TecPrinter = require('./lib/tecprinter');
-const Display = require('./lib/display');
-const Friend = require('./lib/friend');
-const WEB_PORT = 3000;
+//const TecPrinter = require('./lib/tecprinter');
+//const Display = require('./lib/display');
+//const Friend = require('./lib/friend');
+//const WEB_PORT = 3000;
 
-var OPTICON = [ 0x065a, 0x0001 ];
-var TECSCAN = [ 0x08a6, 0x0044 ];
+//var OPTICON = [ 0x065a, 0x0001 ];
+//var TECSCAN = [ 0x08a6, 0x0044 ];
 /*var EPSON_IPADDR = '192.168.192.168';*/ var EPSON_IPADDR = null;
-var TEC_USBID = [ 0x08a6, 0x0041 ];
-var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
-var FRIEND_PORT = '/dev/spidev0.0';
+//var TEC_USBID = [ 0x08a6, 0x0041 ];
+//var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
+//var FRIEND_PORT = '/dev/spidev0.0';
 
 // Initialize
 var epson = new Printer(EPSON_IPADDR);
@@ -24,14 +24,10 @@ var epson = new Printer(EPSON_IPADDR);
 // 何か2
 function demo(count) {
 	var isdn = '2784403994040';
+	isdn = '4910037690579';
 	var receipt = db.getReceiptData(isdn);
-	//epson.printLabel(receipt);
-	console.log('CALL');
-
-	if (count <= 0) return;
-	setInterval(function() {
-		demo(count - 1);
-	}, 1000);
+	epson.printLabel(receipt);
+	if (count > 0) demo(count - 1);
 }
 demo(5);
 
