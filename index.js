@@ -9,7 +9,7 @@ const Printer = require('./lib/printer');
 
 //var OPTICON = [ 0x065a, 0x0001 ];
 //var TECSCAN = [ 0x08a6, 0x0044 ];
-/*var EPSON_IPADDR = '192.168.192.168';*/ var EPSON_IPADDR = null;
+var EPSON_IPADDR = '192.168.192.168';/*var EPSON_IPADDR = null;*/
 //var TEC_USBID = [ 0x08a6, 0x0041 ];
 //var DISPLAY_PORT = '/dev/serial0';/*var DISPLAY_PORT = '/tmp/ttyS0';*/
 //var FRIEND_PORT = '/dev/spidev0.0';
@@ -27,9 +27,9 @@ function demo(count) {
 	isdn = '4910037690579';
 	var receipt = db.getReceiptData(isdn);
 	epson.printLabel(receipt);
-	if (count > 0) demo(count - 1);
+	if (count - 1 > 0) demo(count - 1);
 }
-demo(5);
+demo(1);
 
 
 // Scan
