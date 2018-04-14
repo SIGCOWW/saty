@@ -32,7 +32,7 @@ function demo(count) {
 	epson.printLabel(seller);
 	if (count - 1 > 0) demo(count - 1);
 }
-demo(2);
+demo(10);
 
 
 // Scan
